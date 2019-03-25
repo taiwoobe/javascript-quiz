@@ -1,14 +1,14 @@
 // Using IIFE to privatise the algorithm.
 (function() {
-    function Question(question, answers, correctAnswer) {
+    function Question(question, answers, correct) {
         this.question = question;
         this.answers = answers;
-        this.correctAnswer = correctAnswer;
+        this.correct = correct;
     }
 
-    // Writing a Prototype to display the questions
     Question.prototype.displayQuestion = function() {
         console.log(this.question);
+
         for (var i = 0; i < this.answers.length; i++) {
             console.log(i + ': ' + this.answers[i]);
         }
@@ -17,6 +17,7 @@
     // Writing a Prototype to check the correct answer with what the user entered in.
     Question.prototype.checkAnswer = function(ans, callback) {
         var sc;
+        
         if (ans === this.correct) {
             console.log('Correct answer!');
             sc = callback(true);
@@ -28,7 +29,6 @@
         this.displayScore(sc);
     }
 
-    // Display current score
     Question.prototype.displayScore = function(score) {
         console.log('Your current score is: ' + score);
         console.log('------------------------------');
@@ -57,16 +57,15 @@
     function nextQuestion() {
         // Generate random numbers between 0 and the total number of questions.
         // Using Math.floor to remove all the decimals
-        var num = Math.floor(Math.random() * questions.length);
-    
-        questions[num].displayQuestion();
+        var n = Math.floor(Math.random() * questions.length);
+        questions[n].displayQuestion();
     
         // Using the prompt to display the field to type in the correct answer. Also uning the ParseInt to convert the string to a number
         var answer = prompt('Please select the correct answer.');
 
         // Call the nextQuestion if only the user does not enter the exit text
         if(answer !== 'exit') {
-            questions[num].checkAnswer(parseInt(answer), keepScore);
+            questions[n].checkAnswer(parseInt(answer), keepScore);
             nextQuestion();
         }
     }
